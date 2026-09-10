@@ -1,0 +1,266 @@
+.dyatel-view {
+	padding: var(--size-4-6);
+}
+
+.dyatel-card {
+	max-width: 40rem;
+	margin: 0 auto;
+	padding: var(--size-4-8);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 16px;
+	background: var(--background-primary);
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-4);
+}
+
+/* Header */
+
+.dyatel-header {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-4);
+}
+
+.dyatel-header-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #f2c14e;
+	flex-shrink: 0;
+}
+
+.dyatel-header-icon .svg-icon {
+	width: 3rem;
+	height: 3rem;
+	stroke-width: 1.75;
+}
+
+.dyatel-title {
+	font-size: 2rem;
+	font-weight: 800;
+	line-height: 1.15;
+	color: var(--text-normal);
+}
+
+.dyatel-subtitle {
+	font-size: var(--font-ui-medium);
+	color: var(--text-muted);
+}
+
+.dyatel-divider {
+	height: 1px;
+	background: var(--background-modifier-border);
+}
+
+/* Fields */
+
+.dyatel-range {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--size-4-4);
+}
+
+.dyatel-options {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: end;
+	gap: var(--size-4-4);
+}
+
+.dyatel-field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-2-3);
+	min-width: 0;
+}
+
+.dyatel-label {
+	font-size: var(--font-ui-medium);
+	color: var(--text-muted);
+}
+
+.dyatel-control {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.dyatel-view .dyatel-input {
+	width: 100%;
+	height: 3rem;
+	padding-right: 2.5rem;
+	font-size: var(--font-ui-large);
+	font-variant-numeric: tabular-nums;
+	border-radius: 10px;
+}
+
+.dyatel-view .dyatel-select {
+	width: 100%;
+	height: 3rem;
+	font-size: var(--font-ui-large);
+	border-radius: 10px;
+}
+
+/* Stepper */
+
+.dyatel-stepper {
+	position: absolute;
+	right: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+}
+
+.dyatel-view .dyatel-step {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	height: 0.9rem;
+	width: 1.2rem;
+	background: transparent;
+	border: none;
+	box-shadow: none;
+	color: var(--text-muted);
+	cursor: pointer;
+}
+
+.dyatel-view .dyatel-step:hover {
+	color: var(--text-normal);
+	background: transparent;
+}
+
+.dyatel-view .dyatel-step .svg-icon {
+	width: 1rem;
+	height: 1rem;
+}
+
+/* Hide number toggle */
+
+.dyatel-toggle {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	height: 3rem;
+	font-size: var(--font-ui-large);
+	color: var(--text-normal);
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.dyatel-view .dyatel-checkbox {
+	width: 1.6rem;
+	height: 1.6rem;
+	margin: 0;
+	cursor: pointer;
+	accent-color: var(--interactive-accent);
+}
+
+/* Result */
+
+.dyatel-result {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: var(--size-4-2);
+	min-height: 14rem;
+	padding: var(--size-4-6);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 12px;
+}
+
+.dyatel-result.is-clickable {
+	cursor: pointer;
+}
+
+.dyatel-number {
+	font-size: 4rem;
+	font-weight: 700;
+	line-height: 1.1;
+	text-align: center;
+	font-variant-numeric: tabular-nums;
+	color: var(--text-normal);
+	transition: filter 120ms ease-out;
+}
+
+.dyatel-number.is-blurred {
+	filter: blur(18px);
+	user-select: none;
+}
+
+.dyatel-hint {
+	font-size: var(--font-ui-small);
+	color: var(--text-faint);
+	visibility: hidden;
+}
+
+.dyatel-hint.is-visible {
+	visibility: visible;
+}
+
+.dyatel-error {
+	color: var(--text-error);
+	font-size: var(--font-ui-small);
+}
+
+/* Actions */
+
+.dyatel-actions {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: var(--size-4-3);
+}
+
+.dyatel-view .dyatel-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--size-4-2);
+	height: 3.5rem;
+	padding: 0 var(--size-4-6);
+	font-size: var(--font-ui-large);
+	font-weight: 600;
+	border-radius: 12px;
+	cursor: pointer;
+}
+
+.dyatel-view .dyatel-button-primary {
+	background: var(--interactive-accent);
+	color: var(--text-on-accent);
+}
+
+.dyatel-view .dyatel-button-primary:hover {
+	background: var(--interactive-accent-hover);
+}
+
+.dyatel-view .dyatel-button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.dyatel-button-icon {
+	display: flex;
+	align-items: center;
+}
+
+.dyatel-button-icon .svg-icon {
+	width: 1.4rem;
+	height: 1.4rem;
+}
+
+/* Narrow panes */
+
+@media (max-width: 30rem) {
+	.dyatel-range,
+	.dyatel-options,
+	.dyatel-actions {
+		grid-template-columns: 1fr;
+	}
+
+	.dyatel-toggle {
+		height: auto;
+	}
+}
