@@ -1,13 +1,16 @@
-import { Plugin, WorkspaceLeaf } from "obsidian";
+import { Plugin, WorkspaceLeaf, addIcon } from "obsidian";
 import { DyatelView, VIEW_TYPE_DYATEL } from "./view";
 import { DEFAULT_SETTINGS, DyatelSettings, normalizeSettings } from "./settings";
 import { Language, LANGUAGES } from "./languages";
+import { WOODPECKER_ICON_ID, WOODPECKER_ICON_SVG } from "./icon";
 
 export default class DyatelPlugin extends Plugin {
 	settings: DyatelSettings = DEFAULT_SETTINGS;
 
 	async onload(): Promise<void> {
 		this.settings = normalizeSettings(await this.loadData());
+
+		addIcon(WOODPECKER_ICON_ID, WOODPECKER_ICON_SVG);
 
 		this.registerView(VIEW_TYPE_DYATEL, (leaf: WorkspaceLeaf) => new DyatelView(leaf, this));
 

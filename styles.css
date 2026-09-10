@@ -1,10 +1,20 @@
 .dyatel-view {
+	display: flex;
+	min-height: 100%;
 	padding: var(--size-4-6);
+	box-sizing: border-box;
+}
+
+/* The pane takes focus to receive shortcuts; no focus ring for that. */
+.dyatel-view:focus,
+.dyatel-view:focus-visible {
+	outline: none;
 }
 
 .dyatel-card {
+	width: 100%;
 	max-width: 40rem;
-	margin: 0 auto;
+	margin: auto;
 	padding: var(--size-4-8);
 	border: 1px solid var(--background-modifier-border);
 	border-radius: 16px;
@@ -26,14 +36,15 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	color: #f2c14e;
 	flex-shrink: 0;
 }
 
+/* The woodpecker carries its own colours, so it must not inherit icon styling. */
 .dyatel-header-icon .svg-icon {
-	width: 3rem;
-	height: 3rem;
-	stroke-width: 1.75;
+	width: 3.5rem;
+	height: 3.5rem;
+	stroke: none;
+	fill: none;
 }
 
 .dyatel-title {

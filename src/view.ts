@@ -1,5 +1,6 @@
 import { ItemView, Notice, WorkspaceLeaf, setIcon } from "obsidian";
 import type DyatelPlugin from "./main";
+import { WOODPECKER_ICON_ID } from "./icon";
 import { LANGUAGES } from "./languages";
 import { NumberField } from "./numberField";
 import { speak, stopSpeech } from "./speech";
@@ -7,8 +8,9 @@ import { speak, stopSpeech } from "./speech";
 export const VIEW_TYPE_DYATEL = "dyatel-view";
 
 const DEFAULT_FROM = 0;
-const DEFAULT_TO = 100_000;
+const DEFAULT_TO = 100;
 const GROUPING_LOCALE = "en-US";
+const INITIAL_VALUE = 0;
 
 export class DyatelView extends ItemView {
 	private readonly plugin: DyatelPlugin;
@@ -23,7 +25,8 @@ export class DyatelView extends ItemView {
 	private listenButton: HTMLButtonElement;
 	private errorEl: HTMLElement;
 
-	private currentValue: number | null = null;
+	// The view opens showing 0 rather than an empty placeholder.
+	private currentValue: number | null = INITIAL_VALUE;
 	private revealed = true;
 
 	constructor(leaf: WorkspaceLeaf, plugin: DyatelPlugin) {
@@ -40,7 +43,7 @@ export class DyatelView extends ItemView {
 	}
 
 	getIcon(): string {
-		return "dices";
+		return WOODPECKER_ICON_ID;
 	}
 
 	async onOpen(): Promise<void> {
@@ -61,7 +64,12 @@ export class DyatelView extends ItemView {
 		this.buildResult(card);
 		this.buildActions(card);
 
+		this.registerShortcuts();
 		this.renderResult();
+
+		// Give the view focus so the shortcuts work without a click first.
+		container.tabIndex = -1;
+		container.focus();
 	}
 
 	async onClose(): Promise<void> {
@@ -73,11 +81,11 @@ export class DyatelView extends ItemView {
 		const header = parent.createDiv({ cls: "dyatel-header" });
 
 		const icon = header.createDiv({ cls: "dyatel-header-icon" });
-		setIcon(icon, "dices");
+		setIcon(icon, WOODPECKER_ICON_ID);
 
 		const text = header.createDiv({ cls: "dyatel-header-text" });
-		text.createDiv({ cls: "dyatel-title", text: "Random Number" });
-		text.createDiv({ cls: "dyatel-subtitle", text: "Generate and practice listening" });
+		text.createDiv({ cls: "dyatel-title", text: "Dyatel" });
+		text.createDiv({ cls: "dyatel-subtitle", text: "Ace those numbers!" });
 	}
 
 	private buildRangeRow(parent: HTMLElement): void {
@@ -114,9 +122,9 @@ export class DyatelView extends ItemView {
 			attr: { id: "dyatel-hide", type: "checkbox" },
 		});
 		toggleWrap.createSpan({ text: "Hide number" });
+		this.hideToggle.checked = false;
 		this.hideToggle.addEventListener("change", () => {
-			this.revealed = !this.hideToggle.checked;
-			this.renderResult();
+			this.setHidden(this.hideToggle.checked);
 		});
 	}
 
@@ -151,6 +159,45 @@ export class DyatelView extends ItemView {
 		setIcon(this.listenButton.createSpan({ cls: "dyatel-button-icon" }), "volume-2");
 		this.listenButton.createSpan({ text: "Listen" });
 		this.listenButton.addEventListener("click", () => void this.listen());
+
+		generate.title = "Generate new (Space)";
+		this.listenButton.title = "Listen (S)";
+	}
+
+	/**
+	 * View-local shortcuts: Space generates, S listens, H toggles hiding.
+	 * Keys typed inside the range or language controls are left alone.
+	 */
+	private registerShortcuts(): void {
+		this.registerDomEvent(this.contentEl, "keydown", (evt: KeyboardEvent) => {
+			if (evt.ctrlKey || evt.metaKey || evt.altKey || evt.repeat) return;
+
+			const target = evt.target as HTMLElement | null;
+			if (target instanceof HTMLInputElement && target.type !== "checkbox") return;
+			if (target instanceof HTMLSelectElement || target instanceof HTMLTextAreaElement) return;
+			if (target?.isContentEditable) return;
+
+			const key = evt.key.toLowerCase();
+			if (key === " " || key === "spacebar") {
+				this.generate();
+			} else if (key === "s") {
+				void this.listen();
+			} else if (key === "h") {
+				this.setHidden(!this.hideToggle.checked);
+			} else {
+				return;
+			}
+
+			// Stop Space from also activating a focused button or scrolling the pane.
+			evt.preventDefault();
+			evt.stopPropagation();
+		});
+	}
+
+	private setHidden(hidden: boolean): void {
+		this.hideToggle.checked = hidden;
+		this.revealed = !hidden;
+		this.renderResult();
 	}
 
 	private generate(): void {
