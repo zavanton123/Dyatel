@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+# A tag push and a published release can both fire for the same version;
+# queue them instead of racing over the same assets.
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check the tag matches manifest.json
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          manifest="$(node -p "require('./manifest.json').version")"
+          if [ "$tag" != "$manifest" ]; then
+            echo "::error::Tag $tag does not match manifest.json version $manifest."
+            exit 1
+          fi
+          echo "Releasing $tag"
+
+      - name: Build the release archive
+        run: npm run package
+
+      - name: Publish the assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${GITHUB_REF_NAME}"
+          assets=("dyatel-${tag}.zip" main.js manifest.json styles.css)
+
+          # The tag can arrive before the release exists (a plain git push
+          # --tags) or after it (a release published from the UI).
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" "${assets[@]}" --clobber
+          else
+            gh release create "$tag" "${assets[@]}" \
+              --title "Dyatel $tag" \
+              --generate-notes
+          fi

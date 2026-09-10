@@ -97,6 +97,21 @@ straight into `.obsidian/plugins/`.
 To test in a real vault, copy `main.js`, `manifest.json` and `styles.css` into
 `<vault>/.obsidian/plugins/dyatel/` and reload the plugin.
 
+## Releasing
+
+Pushing a tag that matches the version in `manifest.json` builds the plugin and
+publishes the archive to a GitHub release automatically:
+
+```bash
+npm version 1.0.1 --no-git-tag-version   # bump manifest.json too
+git commit -am "Release 1.0.1" && git tag 1.0.1 && git push --follow-tags
+```
+
+The [release workflow](.github/workflows/release.yml) refuses to publish if the
+tag and `manifest.json` disagree, then attaches `dyatel-<version>.zip` along with
+`main.js`, `manifest.json` and `styles.css`. It also runs when a release is
+published from the GitHub UI, replacing the assets on the existing release.
+
 ## License
 
 MIT
