@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/icon.png" alt="Dyatel" width="120">
+<img src="img/icon.png" alt="Dyatel" width="120">
 
 # Dyatel
 
@@ -23,7 +23,7 @@ Which is exactly how you learn numbers.
 
 | Generate and listen | Practise with the number hidden |
 | --- | --- |
-| <img src="docs/screenshot-main.png" alt="The Dyatel view showing a generated number"> | <img src="docs/screenshot-hidden.png" alt="The Dyatel view with the number blurred"> |
+| <img src="img/screenshot-main.png" alt="The Dyatel view showing a generated number"> | <img src="img/screenshot-hidden.png" alt="The Dyatel view with the number blurred"> |
 
 ## Features
 
@@ -86,7 +86,13 @@ No API key is needed either way.
 npm install
 npm run dev     # watch build
 npm run build   # type-check and produce a minified main.js
+npm run package # build, then bundle the release zip
 ```
+
+`npm run package` reads the version from `manifest.json` and writes
+`dyatel-<version>.zip`, containing a `dyatel/` folder with `main.js`,
+`manifest.json` and `styles.css` — ready to attach to a release or unzip
+straight into `.obsidian/plugins/`.
 
 To test in a real vault, copy `main.js`, `manifest.json` and `styles.css` into
 `<vault>/.obsidian/plugins/dyatel/` and reload the plugin.
