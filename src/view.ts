@@ -21,7 +21,6 @@ export class DyatelView extends ItemView {
 	private hideToggle: HTMLInputElement;
 	private resultEl: HTMLElement;
 	private numberEl: HTMLElement;
-	private hintEl: HTMLElement;
 	private listenButton: HTMLButtonElement;
 	private errorEl: HTMLElement;
 
@@ -131,7 +130,6 @@ export class DyatelView extends ItemView {
 	private buildResult(parent: HTMLElement): void {
 		this.resultEl = parent.createDiv({ cls: "dyatel-result" });
 		this.numberEl = this.resultEl.createDiv({ cls: "dyatel-number" });
-		this.hintEl = this.resultEl.createDiv({ cls: "dyatel-hint", text: "Click to reveal" });
 
 		// The blurred number doubles as the reveal control.
 		this.resultEl.addEventListener("click", () => {
@@ -251,7 +249,6 @@ export class DyatelView extends ItemView {
 		);
 		this.numberEl.toggleClass("is-blurred", hidden);
 		this.resultEl.toggleClass("is-clickable", hidden);
-		this.hintEl.toggleClass("is-visible", hidden);
 		this.listenButton.disabled = this.currentValue === null;
 	}
 

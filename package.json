@@ -1,6 +1,6 @@
 {
   "name": "dyatel",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A random number generator in a dedicated view.",
   "main": "main.js",
   "scripts": {

@@ -202,16 +202,6 @@
 	user-select: none;
 }
 
-.dyatel-hint {
-	font-size: var(--font-ui-small);
-	color: var(--text-faint);
-	visibility: hidden;
-}
-
-.dyatel-hint.is-visible {
-	visibility: visible;
-}
-
 .dyatel-error {
 	color: var(--text-error);
 	font-size: var(--font-ui-small);
